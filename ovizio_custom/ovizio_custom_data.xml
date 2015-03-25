@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<openerp>
+<!--
+	<data noupdate="1">
+		<record id="ir_ui_view_productformviewinherit0" model="ir.ui.view">
+			<field name="inherit_id" ref="ir_ui_view_productnormalform0"/>
+			<field name="name">product.form.view.inherit</field>
+			<field name="arch">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;field name=&quot;active&quot; position=&quot;after&quot;&gt;
+                    
+                &lt;/field&gt;</field>
+			<field eval="5" name="priority"/>
+			<field name="model">product.product</field>
+			<field name="type">form</field>
+		</record>
+		<record id="ir_ui_view_productproductstandardpriceforminherit0" model="ir.ui.view">
+			<field name="inherit_id" ref="ir_ui_view_productnormalform0"/>
+			<field name="name">product.product.standard.price.form.inherit</field>
+			<field name="arch">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;field name=&quot;standard_price&quot; position=&quot;replace&quot;&gt;
+                    &lt;label align=&quot;1.0&quot; string=&quot;Cost Price:&quot;/&gt;
+                    &lt;group col=&quot;2&quot; colspan=&quot;1&quot;&gt;
+                        &lt;field attrs=&quot;{'readonly':[('cost_method','=','average')]}&quot; name=&quot;standard_price&quot; nolabel=&quot;1&quot;/&gt;
+                        
+                    &lt;/group&gt;
+                &lt;/field&gt;</field>
+			<field eval="5" name="priority"/>
+			<field name="model">product.product</field>
+			<field name="type">form</field>
+		</record>
+		<record id="ir_ui_view_respartnerstockpropertyforminherit0" model="ir.ui.view">
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="name">res.partner.stock.property.form.inherit</field>
+			<field name="arch">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;page position=&quot;inside&quot; string=&quot;Sales &amp;amp; Purchases&quot;&gt;
+          
+        &lt;/page&gt;</field>
+			<field eval="5" name="priority"/>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+		</record>
+		<record id="ir_ui_view_viewrespartnerformcrminherited0" model="ir.ui.view">
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="name">view.res.partner.form.crm.inherited1</field>
+			<field name="arch">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&lt;field name=&quot;user_id&quot; position=&quot;after&quot;&gt;
+                        
+                    &lt;/field&gt;</field>
+			<field eval="5" name="priority"/>
+			<field name="model">res.partner</field>
+			<field name="type">form</field>
+		</record>
+	</data>
+-->
+
+	<data noupdate="0">
+
+		<record id="sale.report_sale_order" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/sale_order.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+		<record id="mrp.report_bom_structure" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/bom_structure.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+
+	</data>
+
+</openerp>

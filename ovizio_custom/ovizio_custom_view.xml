@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+   <!--
+       ovizio_custom Views 
+   -->
+
+    <record model="ir.ui.view" id="view_ovizio_opportunity_tree">
+        <field name="name">ovizio_custom.opportunity.tree</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="type">tree</field>
+        <field name="priority">8</field>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="demo_state"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="view_ovizio_opportunity_form">
+        <field name="name">ovizio_custom.opportunity.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <page string="Lead" position="after">
+                <page string="Demo">
+                    <group> 
+                        <separator string="Ovizio Demo" colspan="4"/>
+                        <field name="need_demo"/>
+                    </group>
+                    <group colspan="4">
+                        <field name="demo_date" attrs="{'invisible':[('need_demo','=',False)]}"/>
+                        <field name="demo_state" attrs="{'invisible':[('need_demo','=',False)]}"/>
+                        <separator string="Demo Description" colspan="4" attrs="{'invisible':[('need_demo','=',False)]}"/>
+                        <field name="demo_desc" colspan="4" nolabel="1" attrs="{'invisible':[('need_demo','=',False)]}"/>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+    
+    <record id="ovizio_view_bom_01" model="ir.ui.view">
+        <field name="name">ovizio_view_bom_01</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bom_lines']/tree//field[@name='product_qty']" position="after">
+                <field name="product_cost" sum="Total Cost"/>
+                <field name="product_delay"/>
+                <field name="product_supplier_id" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ovizio_sale_order_form" model="ir.ui.view">
+        <field name="name">ovizio.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+	    <field name="date_order" position="after">
+		<field name="date_validity" states="draft,sent"/>
+	    </field>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='product_id']" position="before">
+                <field name="line_nbr"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="after">
+                <field name="date_delivery"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/form//field[@name='product_id']" position="before">
+                <field name="line_nbr" strinf="Line Number"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="ovizio_view_product_main_supplier" model="ir.ui.view">
+        <field name="name">ovizio_view_product_main_supplier</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="purchase.view_product_supplier_inherit"/>
+        <field name="arch" type="xml">
+            <field name="seller_ids" position="before">
+                <label string="Main Supplier"/>
+                <!--                <field name="supplier_id" colspan="2"/>-->
+                <field name="main_supplier_id" colspan="2"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="ovizio_purchase_order_tree" model="ir.ui.view">
+        <field name="name">ovizio.purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="before">
+                <field name="shipped"/>
+                <field name="invoiced" string="Invoiced"/>
+            </field>
+        </field>
+    </record>
+
+
+            <record id="view_ovizio_purchase_order_form" model="ir.ui.view">
+            <field name="name">view.ovizio.purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree//field[@name='account_analytic_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+            </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_purchase_order_line_delivery_tree" model="ir.ui.view">
+            <field name="name">Purchase Order Lines</field>
+            <field name="model">purchase.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Order Lines" create="false" edit="true" editable="bottom">
+                    <field name="order_id"/>
+                    <field name="partner_id"/>
+                    <field name="name"/>
+                    <field name="account_analytic_id" required="1"/>
+                    <field name="product_qty"/>
+                    <field name="product_uom"/>
+                    <field name="date_planned"/>
+                </tree>
+            </field>
+        </record>
+
+<!--
+        <record id="view_purchase_order_line_delivery_filter" model="ir.ui.view">
+            <field name="name">Purchase Order Lines</field>
+            <field name="model">purchase.order.line</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <search string="Purchase Order Lines">
+                    <field name="order_id"/>
+                    <field name="partner_id"/>
+                    <field name="dest_address_id"/>
+                    <field name="purchase_resp_id"/>
+                    <group expand="0" string="Group By...">
+                        <filter context="{'group_by':'partner_id'}" string="Partner"/>
+                        <filter context="{'group_by':'purchase_resp_id'}" string="Resp Req"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+-->     
+        <record id="action_purchase_order_line_delivery_tree" model="ir.actions.act_window">
+               <field name="name">Purchase Order Lines</field>
+               <field name="type">ir.actions.act_window</field>
+               <field name="res_model">purchase.order.line</field>
+               <field name="view_type">form</field>
+               <field name="view_mode">tree</field>
+               <field name="view_id" ref="view_purchase_order_line_delivery_tree"/>
+<!--               <field name="search_view_id" ref="view_purchase_order_line_delivery_filter"/>-->
+        </record>
+
+    <menuitem id="menu_purchase_order_line_delivery" name="Purchase Order Lines" parent="purchase.menu_procurement_management" sequence="12" action="action_purchase_order_line_delivery_tree"/>
+
+
+<!--
+    <record id="ovizio_view_partner_form_01" model="ir.ui.view">
+        <field name="name">ovizio_view_partner_form_01</field>
+        <field name="model">ir.ui.view</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/notebook/page[@string='Sales &amp; Purchases']/group/field[@name='property_stock_customer']" position="replace"/>
+        </field>
+    </record>
+
+    <record id="ovizio_view_stock_picking_01" model="ir.ui.view">
+        <field name="name">ovizio_view_stock_picking_01</field>
+        <field name="model">ir.ui.view</field>
+        <field name="inherit_id" ref="stock.view_picking_in_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/sheet/notebook/page[@string='General Information']/field[@name='move_lines']/tree/field[@name='scrapped']" position="replace"/>
+        </field>
+    </record>
+
+-->
+
+    </data>
+</openerp>
