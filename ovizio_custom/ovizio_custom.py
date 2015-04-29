@@ -106,35 +106,17 @@ class product_product(osv.osv):
     _columns = {
         'supplier_id': fields.function(_get_main_supplier, type="many2one", relation="res.partner", string="Main Supplier", store=True, readonly=False),
         'main_supplier_id': fields.many2one('res.partner', 'Main Supplier'),
+        'critical': fields.boolean('Critical'),
     }
 
-class purchase_order(osv.osv):
+class res_partner(osv.osv):
 
-    _inherit = 'purchase.order'
-"""
-    def _get_order(self, cr, uid, ids, context=None):
-#        result = {}
-#        for line in self.pool.get('purchase.order.line').browse(cr, uid, ids, context=context):
-#            result[line.order_id.id] = True
-#        return result.keys()
-        return {}
-
-    def _set_minimum_planned_date(self, cr, uid, ids, name, value, arg, context=None):
-        return True
-
-    def _minimum_planned_date(self, cr, uid, ids, field_name, arg, context=None):
-        res={}
-        purchase_obj=self.browse(cr, uid, ids, context=context)
-        for purchase in purchase_obj:
-            res[purchase.id] = False
-        return res
+    _inherit = 'res.partner'
 
     _columns = {
-        'minimum_planned_date':fields.function(_minimum_planned_date, string='Expected Date', type='date', select=True, help="This is computed as the minimum scheduled date of all purchase order lines' products.",
-        ),
+        'critical': fields.boolean('Critical'),
     }
 
-"""
     
 
 

@@ -76,6 +76,18 @@
         </field>
     </record>
     
+    <record id="ovizio_view_product_form" model="ir.ui.view">
+        <field name="name">ovizio_view_product_form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="list_price" position="after">
+                <label string="Critical"/>
+                <field name="critical"/>
+            </field>
+        </field>
+    </record>
+
     <record id="ovizio_view_product_main_supplier" model="ir.ui.view">
         <field name="name">ovizio_view_product_main_supplier</field>
         <field name="model">product.product</field>
@@ -83,7 +95,6 @@
         <field name="arch" type="xml">
             <field name="seller_ids" position="before">
                 <label string="Main Supplier"/>
-                <!--                <field name="supplier_id" colspan="2"/>-->
                 <field name="main_supplier_id" colspan="2"/>
             </field>
         </field>
@@ -182,6 +193,43 @@
     </record>
 
 -->
+
+    <record id="ovizio_res_partner_form" model="ir.ui.view">
+        <field name="name">ovizio.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <label string="Critical"/>
+                <field name="critical" colspan="2"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="ovizio_view_hr_holidays_form" model="ir.ui.view">
+        <field name="name">ovizio_view_hr_holidays_form</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.view_holiday"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="type"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="ovizio_view_hr_holidays_chatter" model="ir.ui.view">
+        <field name="name">ovizio_view_hr_holidays_chatter</field>
+        <field name="model">hr.holidays</field>
+        <field name="inherit_id" ref="hr_holidays.allocation_leave_new"/>
+        <field name="arch" type="xml">
+                <sheet position="after">
+                   <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </sheet>
+        </field>
+    </record>
 
     </data>
 </openerp>
