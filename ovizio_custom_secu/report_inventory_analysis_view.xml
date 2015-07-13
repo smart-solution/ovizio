@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+    <!-- Inventory Control -->
+    <record id="view_ovizio_stock_inventory_list" model="ir.ui.view">
+        <field name="name">ovizio.report.stock.inventory.list</field>
+        <field name="model">ovizio.report.stock.inventory</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Ovizio Inventory Analysis">
+                <field name="date"/>
+                <field name="location_id"/>
+                <field name="product_id" />
+                <field name="supplier_id"/>
+                <field name="product_qty" sum="Total quantity"/>
+                <field name="price_unit"/>
+                <field name="value" sum="Total value"/>
+                <field name="company_id" invisible="1"/>
+                <field name="location_type" invisible="1"/>
+                <field name="partner_id" invisible="1" context="{'contact_display':'partner'}"/>
+                <field name="product_categ_id" invisible="1"/>
+                <field name="prodlot_id" invisible="1"/>
+                <field name="state" invisible="1"/>
+           </tree>
+        </field>
+    </record>
+
+    <record id="view_ovizio_stock_inventory_tree" model="ir.ui.view">
+        <field name="name">ovizio.report.stock.inventory.tree</field>
+        <field name="model">ovizio.report.stock.inventory</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Ovizio Inventory Analysis">
+                <field name="date" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+                <field name="location_type" invisible="1"/>
+                <field name="location_id" invisible="1"/>
+                <field name="partner_id" invisible="1" context="{'contact_display':'partner'}"/>
+                <field name="supplier_id" invisible="1"/>
+                <field name="product_categ_id" invisible="1"/>
+                <field name="product_id" invisible="1"/>
+                <field name="prodlot_id" invisible="1"/>
+                <field name="state" invisible="1"/>
+                <field name="product_qty" sum="Total quantity"/>
+                <field name="price_unit"/>
+                <field name="value" sum="Total value"/>
+           </tree>
+        </field>
+    </record>
+
+    <record id="view_ovizio_stock_inventory_graph" model="ir.ui.view">
+         <field name="name">ovizio.report.stock.inventory.graph</field>
+         <field name="model">ovizio.report.stock.inventory</field>
+         <field name="type">graph</field>
+         <field name="arch" type="xml">
+             <graph string="Ovizio Inventory Analysis" type="bar">
+                 <field name="product_id"/>
+                 <field name="product_qty"/>
+             </graph>
+         </field>
+    </record>
+
+    <record id="view_ovizio_stock_inventory_search" model="ir.ui.view">
+        <field name="name">ovizio.report.stock.inventory.search</field>
+        <field name="model">ovizio.report.stock.inventory</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Ovizio Inventory Analysis">
+                <group col="16">
+                    <filter string="Real"
+                        name="real"
+                        icon="terp-check"
+                        domain="[('state','=','done')]"
+                        help="Analysis of current inventory (only moves that have already been processed)"/>
+
+                    <filter string="Future"
+                        icon="terp-stock"
+                        domain="[('state','in',('assigned','done','waiting','confirmed'))]"
+                        help = "Analysis including future moves (similar to virtual stock)"/>
+
+                    <separator orientation="vertical"/>
+                    <filter icon="terp-go-home" name="location_type_internal" string="Internal" domain="[('location_type','=','internal')]"/>
+                    <separator orientation="vertical"/>
+                    <field name="product_id" default_focus="1"/>
+                    <field name="location_id" filter_domain="[('location_id', 'child_of', self)]"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                </group>
+                <newline/>
+                <group expand="0" string="Extended Filters..."  groups="base.group_extended">
+                    <field name="partner_id" context="{'contact_display':'partner'}"/>
+                    <field name="product_categ_id" />
+                    <field name="prodlot_id"/>
+                    <field name="state"/>
+                    <field name="location_type"/>
+                    <field name="date"/>
+                    <filter icon="terp-go-home" name="location_type_scrap" string="Scrap" domain="[('location_type','=','scrap')]"/>
+                </group>
+                <newline/>
+                <group expand="1" string="Group By..." >
+                    <separator orientation="vertical"/>
+                    <filter name="group_location" string="Location" icon="terp-go-home" context="{'group_by':'location_id'}"/>
+                    <filter name="group_product_categ_id" string="Product Category" icon="terp-stock_symbol-selection" context="{'group_by':'product_categ_id'}"/>
+                    <filter name="group_product" string="Product" icon="terp-accessories-archiver" context="{'group_by':'product_id'}"/>
+                     <filter name="group_lot" string="Lot" icon="terp-accessories-archiver" context="{'group_by':'prodlot_id'}"/>
+                    <separator orientation="vertical"/>
+                    <filter string="Partner" name="group_partner" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Supplier" name="group_supplier" icon="terp-partner" domain="[]" context="{'group_by':'supplier_id'}"/>
+                    <filter name="group_company" string="Company" groups="base.group_multi_company" icon="terp-go-home" context="{'group_by':'company_id'}"/>
+                    <separator orientation="vertical"/>
+                    <filter string="Date" icon="terp-go-month" context="{'group_by':'date'}"/>
+                    <filter string="State" icon="terp-stock_effects-object-colorize" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_ovizio_stock_inventory_report" model="ir.actions.act_window">
+        <field name="name">Ovizio Inventory Analysis</field>
+        <field name="res_model">ovizio.report.stock.inventory</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,graph</field>
+        <field name="search_view_id"  eval="False"/>
+        <field name="context">{'contact_display': 'partner', 'search_default_real':1, 'search_default_location_type_internal':1,'search_default_group_location':1,'search_default_group_product':1,'search_default_group_supplier':1,'group_by':[], 'group_by_no_leaf':1}</field>
+        <field name="help">Inventory Analysis allows you to easily check and analyse your company stock levels. Sort and group by selection criteria in order to better analyse and manage your company  activities.</field>
+    </record>
+    <menuitem action="action_ovizio_stock_inventory_report"
+        id="menu_action_ovizio_stock_inventory_report" 
+        parent="stock.next_id_61" sequence="4"/>
+
+    <record id="action_ovizio_stock_inventory_list" model="ir.actions.act_window">
+        <field name="name">Ovizio Inventory List</field>
+        <field name="res_model">ovizio.report.stock.inventory</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,graph</field>
+        <field name="view_id"  eval="view_ovizio_stock_inventory_list"/>
+        <field name="domain">[('location_type','=','internal')]</field>
+    </record>
+    <menuitem action="action_ovizio_stock_inventory_list"
+        id="menu_action_ovizio_stock_inventory_list" 
+        parent="stock.next_id_61" sequence="4"/>
+
+    <!-- Temporary View to import suppliers in products --> 
+
+    <record id="view_product_supplierinfo_import_tree" model="ir.ui.view">
+        <field name="name">view.product.supplierinfo.import.tree</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Product Supplierinfo Import">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="min_qty"/>
+                <field name="delay"/>
+                <field name="company_id"/>
+           </tree>
+        </field>
+    </record>
+    <record id="action_product_supplierinfo_list" model="ir.actions.act_window">
+        <field name="name">Product Supplierinfo List</field>
+        <field name="res_model">product.supplierinfo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,graph</field>
+        <field name="view_id"  eval="view_product_supplierinfo_import_tree"/>
+    </record>
+    <menuitem action="action_product_supplierinfo_list"
+        id="menu_action_product_supplierinfo_list" 
+        parent="stock.next_id_61" sequence="4"/>
+
+</data>
+</openerp>

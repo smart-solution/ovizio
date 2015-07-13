@@ -205,8 +205,8 @@
             </field>
         </field>
     </record>
-
-    <record id="ovizio_view_hr_holidays_form" model="ir.ui.view">
+    
+         <record id="ovizio_view_hr_holidays_form" model="ir.ui.view">
         <field name="name">ovizio_view_hr_holidays_form</field>
         <field name="model">hr.holidays</field>
         <field name="inherit_id" ref="hr_holidays.view_holiday"/>
@@ -217,6 +217,7 @@
         </field>
     </record>
 
+<!--
     <record id="ovizio_view_hr_holidays_chatter" model="ir.ui.view">
         <field name="name">ovizio_view_hr_holidays_chatter</field>
         <field name="model">hr.holidays</field>
@@ -230,6 +231,6 @@
                 </sheet>
         </field>
     </record>
-
+-->
     </data>
 </openerp>
