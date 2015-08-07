@@ -17,6 +17,7 @@
         ],
     "update_xml" : [
         'ovizio_custom_view.xml',
+        'wizard/mrp_stock_move_view.xml',
         'ovizio_custom_report.xml',
 #        'report_inventory_analysis_view.xml',
         'ovizio_custom_data.xml',

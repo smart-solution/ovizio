@@ -1,0 +1,1 @@
+import mrp_stock_move
