@@ -51,12 +51,24 @@
 
 	<data noupdate="0">
 
+		<record id="account.account_invoices" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/account_print_invoice.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
 		<record id="sale.report_sale_order" model="ir.actions.report.xml">
              		<field name="report_file">ovizio_custom/report/sale_order.rml</field>
              		<field name="attachment_use" eval="False"/>
        		</record>
 		<record id="mrp.report_bom_structure" model="ir.actions.report.xml">
              		<field name="report_file">ovizio_custom/report/bom_structure.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+		<record id="stock.report_picking_list_out" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/picking.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+		<record id="delivery.report_shipping" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/picking.rml</field>
              		<field name="attachment_use" eval="False"/>
        		</record>
 
