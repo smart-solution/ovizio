@@ -231,5 +231,19 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="view_stock_move_mrp_report_form">
+        <field name="name">view.stock.move.mrp.report.form</field>
+        <field name="model">stock.move</field>
+        <field name="inherit_id" ref="stock.view_move_form"/>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="product_rack"/>
+                <field name="product_row"/>
+                <field name="product_supplier"/>
+            </field>
+        </field>
+    </record>
+
     </data>
 </openerp>

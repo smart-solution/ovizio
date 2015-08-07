@@ -117,7 +117,16 @@ class res_partner(osv.osv):
         'critical': fields.boolean('Critical'),
     }
 
-    
+
+class stock_move(osv.osv):
+
+    _inherit = 'stock.move'
+
+    _columns = {
+        'product_rack': fields.related('product_id', 'loc_rack', type='char', size=16, string='Product Rack', store=True),
+        'product_row': fields.related('product_id', 'loc_row', type='char', size=16, string='Product Row', store=True),
+        'product_supplier': fields.related('product_id', 'supplier_id', type='many2one', relation="res.partner", string='Product Supplier', store=True),
+    }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
