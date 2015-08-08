@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <!--
         <report
             auto="False"
             id="account_invoices_ovizio"
@@ -12,6 +13,6 @@
             attachment_use="False"
             usage="default"
             />
-
+-->
     </data>
 </openerp>

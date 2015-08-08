@@ -22,7 +22,6 @@
 import time
 from openerp.report import report_sxw
 from openerp.osv import osv
-from openerp import pooler
 
 class bom_structure(report_sxw.rml_parse):
     def __init__(self, cr, uid, name, context):
@@ -38,19 +37,19 @@ class bom_structure(report_sxw.rml_parse):
         def _get_rec(object, level):
             for l in object:
                 res = {}
-                res['name'] = l.name
+#                res['name'] = l.name
                 res['pname'] = l.product_id.name
                 res['pcode'] = l.product_id.default_code
                 res['pqty'] = l.product_qty
                 res['uname'] = l.product_uom.name
-                res['code'] = l.code
+#                res['code'] = l.code
                 res['level'] = level
                 res['supplier'] = l.product_id.main_supplier_id.name
                 result.append(res)
-                if l.child_complete_ids:
+                if l.child_line_ids:
                     if level<6:
                         level += 1
-                    _get_rec(l.child_complete_ids,level)
+                    _get_rec(l.child_line_ids,level)
                     if level>0 and level<6:
                         level -= 1
             return result
@@ -59,7 +58,13 @@ class bom_structure(report_sxw.rml_parse):
 
         return children
 
-#report_sxw.report_sxw('report.bom.structure','mrp.bom','mrp/report/bom_structure.rml',parser=bom_structure,header='internal')
+#class report_mrpbomstructure(osv.AbstractModel):
+#    _name = 'report.mrp.report_mrpbomstructure'
+#    _inherit = 'report.abstract_report'
+#    _template = 'mrp.report_mrpbomstructure'
+#    _wrapped_report_class = bom_structure
+
+report_sxw.report_sxw('report.mrp.report_mrpbomstructure','mrp.bom','ovizio_custom/report/bom_structure.rml',parser=bom_structure,header='internal')
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

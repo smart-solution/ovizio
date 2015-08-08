@@ -130,7 +130,7 @@
         </tr>
       </blockTable>
       <section>
-        <para style="terp_default_8">[[ repeatIn(get_children(o.bom_lines), 'l') ]]</para>
+        <para style="terp_default_8">[[ repeatIn(get_children(o.bom_line_ids), 'l') ]]</para>
         <blockTable colWidths="192.0,198.0,71.0,71.0" style="Table3">
           <tr>
             <td>

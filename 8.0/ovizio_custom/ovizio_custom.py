@@ -4,11 +4,11 @@
 #
 ##############################################################################
 
-from osv import osv, fields
+from openerp.osv import orm, fields
 from datetime import datetime
 from datetime import timedelta
 
-class crm_lead(osv.osv):
+class crm_lead(orm.Model):
         
     _name = 'crm.lead'
     _inherit = 'crm.lead'
@@ -23,11 +23,30 @@ class crm_lead(osv.osv):
         'demo_state': 'pending',
     }
 
-crm_lead()
 
-class mrp_bom(osv.osv):
+class product_template(orm.Model):
 
-    _inherit = 'mrp.bom'
+    _inherit = 'product.template'
+
+    def _get_main_supplier(self, cr ,uid, ids, field_name, args, context=None):
+        """get the main supplier"""
+        if not context:
+            context = {}
+        result = {}
+        for prod in self.browse(cr, uid, ids):
+            if prod.seller_ids:
+                result[prod.id] = prod.seller_ids[0].name.id
+        return result
+
+    _columns = {
+        'supplier_id': fields.function(_get_main_supplier, type="many2one", relation="res.partner", string="Main Supplier", store=True, readonly=False),
+        'main_supplier_id': fields.many2one('res.partner', 'Main Supplier'),
+        'critical': fields.boolean('Critical'),
+    }
+
+class mrp_bom_line(orm.Model):
+
+    _inherit = 'mrp.bom.line'
 
     def _cost_product_get(self, cr, uid, ids, name, args={}, context=None):
         boms = self.browse(cr, uid, ids)
@@ -43,9 +62,8 @@ class mrp_bom(osv.osv):
         'product_supplier_id': fields.related('product_id', 'main_supplier_id', type='many2one', relation="res.partner", string='Supplier', store=True),
     }   
 
-mrp_bom()
 
-class sale_order(osv.osv):
+class sale_order(orm.Model):
 
     _inherit = "sale.order"
 
@@ -53,7 +71,7 @@ class sale_order(osv.osv):
         'date_validity': fields.date('Validity Date'),
     }
 
-class sale_order_line(osv.osv):
+class sale_order_line(orm.Model):
 
     _inherit = 'sale.order.line'
 
@@ -77,9 +95,9 @@ class sale_order_line(osv.osv):
         result = {}
         for line in self.browse(cr, uid, ids):
            if line.product_id:
-                   order_date = datetime.strptime(line.order_id.date_order,  '%Y-%m-%d')
-                   delivery_date = order_date + timedelta(days=line.product_id.sale_delay)
-                   result[line.id] = delivery_date.strftime('%Y-%m-%d')
+               order_date = datetime.strptime(line.order_id.date_order,  '%Y-%m-%d %H:%M:%S')
+               delivery_date = order_date + timedelta(days=line.product_id.sale_delay)
+               result[line.id] = delivery_date.strftime('%Y-%m-%d')
         return result
 
     _columns = {
@@ -87,29 +105,8 @@ class sale_order_line(osv.osv):
         'date_delivery': fields.function(_delivery_date_get, type="date", string='Delivery Date', store=False, readonly=True),
     }
 
-class product_product(osv.osv):
 
-    _inherit = 'product.product'
-
-    def _get_main_supplier(self, cr ,uid, ids, field_name, args, context=None):
-        """get the main supplier"""
-        if not context:
-            context = {}
-        result = {}
-        for prod in self.browse(cr, uid, ids):
-            if prod.seller_ids:
-                print "SELLER IDS:",prod.seller_ids
-                result[prod.id] = prod.seller_ids[0].name.id
-        print "RESULT:",result
-        return result
-
-    _columns = {
-        'supplier_id': fields.function(_get_main_supplier, type="many2one", relation="res.partner", string="Main Supplier", store=True, readonly=False),
-        'main_supplier_id': fields.many2one('res.partner', 'Main Supplier'),
-        'critical': fields.boolean('Critical'),
-    }
-
-class res_partner(osv.osv):
+class res_partner(orm.Model):
 
     _inherit = 'res.partner'
 
@@ -117,7 +114,16 @@ class res_partner(osv.osv):
         'critical': fields.boolean('Critical'),
     }
 
-    
+
+class stock_move(orm.Model):
+
+    _inherit = 'stock.move'
+
+    _columns = {
+        'product_rack': fields.related('product_id', 'loc_rack', type='char', size=16, string='Product Rack', store=True),
+        'product_row': fields.related('product_id', 'loc_row', type='char', size=16, string='Product Row', store=True),
+        'product_supplier': fields.related('product_id', 'supplier_id', type='many2one', relation="res.partner", string='Product Supplier', store=True),
+    }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

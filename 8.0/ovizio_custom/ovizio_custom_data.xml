@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<openerp>
+
+	<data noupdate="0">
+
+		<record id="account.account_invoices" model="ir.actions.report.xml">
+             		<field name="name">Invoices</field>
+             		<field name="report_name">account.report_invoice</field>
+             		<field name="report_type">pdf</field>
+             		<field name="report_file">ovizio_custom/report/account_print_invoice.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+		<record id="sale.report_sale_order" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/sale_order.rml</field>
+             		<field name="report_type">pdf</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+		<record id="stock.action_report_picking" model="ir.actions.report.xml">
+             		<field name="report_type">pdf</field>
+             		<field name="report_file">ovizio_custom/report/picking.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+        <!--
+		<record id="delivery.report_shipping" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/picking.rml</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+-->
+		<record id="mrp.action_report_production_order" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/production_order.rml</field>
+             		<field name="report_type">pdf</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+		<record id="mrp.action_report_bom_structure" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/bom_structure.rml</field>
+             		<field name="report_type">pdf</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+	</data>
+
+</openerp>

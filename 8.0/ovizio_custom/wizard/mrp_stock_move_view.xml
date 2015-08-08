@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+        <record id="wizard_mrp_stock_move_form" model="ir.ui.view">
+            <field name="name">wizard.mrp.stock.move.form</field>
+            <field name="model">wizard.mrp.stock.move</field>
+            <field name="arch" type="xml">
+                <form string="Products to Consume" version="7.0">
+                    <p class="oe_grey">
+                    Displat all products to consume for this manufacturing order ?
+                    </p>
+                    <footer>
+                        <button string="Process" name="stock_move_get" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="action_mrp_stock_move"
+            name="Products to Consume"
+            src_model="mrp.production" 
+            res_model="wizard.mrp.stock.move" 
+            view_mode="form" 
+            view_type="form"
+            view_id="wizard_mrp_stock_move_form"
+            target="new" 
+        />
+
+    </data>
+</openerp>
