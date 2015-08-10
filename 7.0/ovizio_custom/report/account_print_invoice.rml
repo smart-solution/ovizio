@@ -201,7 +201,7 @@
     <blockTable colWidths="132.50,132.50,132.50,132.50" style="Table_General_Detail_Content">
       <tr>
         <td>
-          <para style="terp_default_Centre_9">[[ o.number or ' ' ]]</para>
+          <para style="terp_default_Centre_9">[[ o.origin or ' ' ]]</para>
         </td>
         <td>
           <para style="terp_default_Centre_9">[[ o.name or ' ' ]]</para>
