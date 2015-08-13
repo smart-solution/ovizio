@@ -34,7 +34,6 @@ class stock_production_lot(orm.Model):
         for lot in lots:
             lot_quants = self.pool.get('stock.quant').search(cr, uid, [('lot_id','in',[lot.id])])
             lot_moves = self.pool.get('stock.move').search(cr, uid, [('quant_ids','in',lot_quants)])
-            print "LOT MOVES:",lot_moves
 
             if lot_moves:
                 result[lot.id] = self.pool.get('stock.move').browse(cr, uid, max(lot_moves)).partner_id.id
