@@ -7,6 +7,7 @@
 from osv import osv, fields
 from datetime import datetime
 from datetime import timedelta
+import time
 
 class crm_lead(osv.osv):
         
@@ -128,5 +129,12 @@ class stock_move(osv.osv):
         'product_supplier': fields.related('product_id', 'supplier_id', type='many2one', relation="res.partner", string='Product Supplier', store=True),
     }
 
+class purchase_order(osv.osv):
+
+    _inherit = 'purchase.order'
+
+    def create(self, cr, uid, vals, context=None):
+        vals['date_order'] =  time.strftime('%Y-%m-%d')
+        return super(purchase_order, self).create(cr, uid, vals=vals, context=context)
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
