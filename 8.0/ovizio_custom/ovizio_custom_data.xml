@@ -36,6 +36,16 @@
              		<field name="report_type">pdf</field>
              		<field name="attachment_use" eval="False"/>
        		</record>
+		<record id="purchase.report_purchase_quotation" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/request_quotation.rml</field>
+             		<field name="report_type">pdf</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
+		<record id="purchase.action_report_purchase_order" model="ir.actions.report.xml">
+             		<field name="report_file">ovizio_custom/report/purchase_order.rml</field>
+             		<field name="report_type">pdf</field>
+             		<field name="attachment_use" eval="False"/>
+       		</record>
 	</data>
 
 </openerp>
